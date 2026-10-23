@@ -1,0 +1,31 @@
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+#
+# On branch master
+# Changes to be committed:
+#	new file:   .dockerignore
+#	new file:   .env.example
+#	modified:   .gitignore
+#	new file:   Dockerfile
+#	modified:   app/globals.css
+#	modified:   app/layout.tsx
+#	modified:   app/page.tsx
+#	modified:   package-lock.json
+#	modified:   package.json
+#	new file:   src/components/layout/Sidebar.tsx
+#	new file:   src/features/tasks/api/task.api.ts
+#	new file:   src/features/tasks/components/CreateTaskForm.tsx
+#	new file:   src/features/tasks/components/StatsCards.tsx
+#	new file:   src/features/tasks/components/TaskBoard.tsx
+#	new file:   src/features/tasks/components/TaskFilters.tsx
+#	new file:   src/features/tasks/components/TaskItem.tsx
+#	new file:   src/features/tasks/components/TaskList.tsx
+#	new file:   src/features/tasks/components/TaskViewSwitcher.tsx
+#	new file:   src/features/tasks/hooks/useTasks.ts
+#	new file:   src/features/tasks/task.constants.ts
+#	new file:   src/features/tasks/task.types.ts
+#	new file:   src/lib/realtime.ts
+#	new file:   src/lib/utils.ts
+#	modified:   tsconfig.json
+#

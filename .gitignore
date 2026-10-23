@@ -19,3 +19,6 @@ backend/.prisma/
 
 # Docker local state
 *.log
+# Local Git metadata backups
+/frontend-git-backup/
+/frontend-git-metadata-backup/
