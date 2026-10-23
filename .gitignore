@@ -1,0 +1,21 @@
+# Node / app runtime
+node_modules/
+.next/
+out/
+dist/
+.env
+.env.*
+!.env.example
+
+# OS / editor files
+.DS_Store
+Thumbs.db
+.vscode/
+
+# Local data / generated model artifacts
+backend/models/*.bin
+backend/generated/
+backend/.prisma/
+
+# Docker local state
+*.log

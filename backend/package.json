@@ -1,0 +1,41 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev:api": "tsx watch src/server.ts",
+    "start:api": "tsx src/server.ts",
+    "dev:worker": "tsx watch src/workers/transcription.worker.ts",
+    "start:worker": "tsx src/workers/transcription.worker.ts",
+    "dev:bot": "tsx watch src/bot/bot.ts",
+    "start:bot": "tsx src/bot/bot.ts",
+    "download:whisper-model": "tsx src/scripts/download-whisper-model.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@prisma/adapter-pg": "^7.10.1",
+    "@prisma/client": "^7.10.1",
+    "bullmq": "^6.3.19",
+    "cors": "^2.8.6",
+    "dotenv": "^18.0.8",
+    "express": "^5.3.0",
+    "ffmpeg-static": "^5.3.0",
+    "helmet": "^8.3.0",
+    "ioredis": "^6.0.0",
+    "pg": "^8.23.1",
+    "socket.io": "^4.8.4",
+    "socket.io-client": "^4.8.4",
+    "telegraf": "^4.16.3",
+    "whisper-cpp-node": "^0.2.12",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/node": "^26.6.5",
+    "@types/pg": "^8.23.1",
+    "prisma": "^7.10.1",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2"
+  }
+}

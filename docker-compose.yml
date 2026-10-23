@@ -1,0 +1,72 @@
+
+services:
+  redis:
+    image: redis:7-alpine
+    container_name: ai-task-bot-redis
+    restart: unless-stopped
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks:
+      - ai-task-bot
+
+  api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: ai-task-bot-api
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      NODE_ENV: production
+      PORT: 4000
+      FRONTEND_URL: http://localhost:3001
+      CORS_ORIGIN: http://localhost:3001
+      DATABASE_URL: ${DATABASE_URL_DOCKER}
+      REDIS_URL: redis://redis:6379
+      INTERNAL_EVENTS_TOKEN: ${INTERNAL_EVENTS_TOKEN}
+    depends_on:
+      redis:
+        condition: service_healthy
+    command: npm run start:api
+    ports:
+      - "4001:4000"
+    networks:
+      - ai-task-bot
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: ai-task-bot-frontend
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      NEXT_PUBLIC_API_URL: http://localhost:4001/api
+      NEXT_PUBLIC_REALTIME_URL: http://localhost:4001
+    depends_on:
+      api:
+        condition: service_started
+    ports:
+      - "3001:3000"
+    networks:
+      - ai-task-bot
+
+volumes:
+  redis-data:
+
+networks:
+  ai-task-bot:
+    external: true
+    name: ai-task-bot

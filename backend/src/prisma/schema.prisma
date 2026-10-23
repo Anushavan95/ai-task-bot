@@ -1,0 +1,43 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Task {
+  id          String     @id @default(cuid())
+  title       String
+  description String?
+  status      TaskStatus @default(PENDING)
+  source      TaskSource @default(DASHBOARD)
+  userId      String?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  User        User?      @relation(fields: [userId], references: [id])
+
+  @@index([createdAt])
+  @@index([status])
+  @@index([userId])
+}
+
+model User {
+  id         String   @id
+  telegramId String?  @unique
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime
+  Task       Task[]
+}
+
+enum TaskStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+}
+
+enum TaskSource {
+  TELEGRAM
+  DASHBOARD
+}
