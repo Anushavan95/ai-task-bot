@@ -33,13 +33,13 @@ export function createTelegramBot(token: string) {
 
   bot.start(async (ctx) => {
     await ctx.reply(
-      "Привет! Отправьте мне текст задачи или голосовое сообщение — я сохраню его в вашем списке задач.",
+      "Hello! Send me a task as text or a voice message, and I'll save it to your task list.",
     );
   });
 
   bot.help(async (ctx) => {
     await ctx.reply(
-      "Чтобы создать задачу, отправьте её текстом или запишите голосовое сообщение.",
+      "To create a task, send it as text or record a voice message.",
     );
   });
 
@@ -47,12 +47,12 @@ export function createTelegramBot(token: string) {
     const title = ctx.message.text.trim();
 
     if (!title) {
-      await ctx.reply("Отправьте текст задачи.");
+      await ctx.reply("Please send a task as text.");
       return;
     }
 
     if (title.startsWith("/")) {
-      await ctx.reply("Используйте /help или отправьте текст задачи.");
+      await ctx.reply("Use /help or send a task as text.");
       return;
     }
 
@@ -63,10 +63,10 @@ export function createTelegramBot(token: string) {
       } catch (error) {
         console.error("Could not publish Telegram task-created event:", error);
       }
-      await ctx.reply(`Задача сохранена: ${title}`);
+      await ctx.reply(`Task saved: ${title}`);
     } catch (error) {
       console.error("Could not save Telegram text task:", error);
-      await ctx.reply("Не удалось сохранить задачу. Попробуйте позже.");
+      await ctx.reply("Could not save the task. Please try again later.");
     }
   });
 
@@ -74,16 +74,16 @@ export function createTelegramBot(token: string) {
     const voice = ctx.message.voice;
 
     if (voice.file_size && voice.file_size > MAX_VOICE_FILE_SIZE) {
-      await ctx.reply("Голосовое сообщение слишком большое. Максимум — 20 МБ.");
+      await ctx.reply("The voice message is too large. The maximum size is 20 MB.");
       return;
     }
 
     if (voice.duration > MAX_VOICE_DURATION_SECONDS) {
-      await ctx.reply("Голосовое сообщение длиннее 10 минут.");
+      await ctx.reply("The voice message is longer than 10 minutes.");
       return;
     }
 
-    await ctx.reply("Голосовое сообщение поставлено в очередь на распознавание...");
+    await ctx.reply("Your voice message has been queued for transcription...");
 
     try {
       const fileUrl = await ctx.telegram.getFileLink(voice.file_id);
@@ -97,13 +97,13 @@ export function createTelegramBot(token: string) {
 
       const contentLength = Number(response.headers.get("content-length"));
       if (contentLength > MAX_VOICE_FILE_SIZE) {
-        await ctx.reply("Голосовое сообщение слишком большое. Максимум — 20 МБ.");
+        await ctx.reply("The voice message is too large. The maximum size is 20 MB.");
         return;
       }
 
       const audioBuffer = Buffer.from(await response.arrayBuffer());
       if (audioBuffer.byteLength > MAX_VOICE_FILE_SIZE) {
-        await ctx.reply("Голосовое сообщение слишком большое. Максимум — 20 МБ.");
+        await ctx.reply("The voice message is too large. The maximum size is 20 MB.");
         return;
       }
 
@@ -120,7 +120,7 @@ export function createTelegramBot(token: string) {
     } catch (error) {
       console.error("Telegram voice queueing failed:", error);
       await ctx.reply(
-        "Не удалось поставить голосовое сообщение в очередь. Проверьте подключение к Redis или попробуйте ещё раз.",
+        "Could not queue the voice message. Check the Redis connection or try again.",
       );
     }
   });

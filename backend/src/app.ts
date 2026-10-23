@@ -15,10 +15,8 @@ const configuredCorsOrigins = [
     .filter(Boolean)),
 ].filter((origin, index, allOrigins) => allOrigins.indexOf(origin) === index);
 
-// Add security-related HTTP headers.
 app.use(helmet());
 
-// Allow requests from the browser-based frontend and configured Docker origins.
 app.use(
   cors({
     origin(origin, callback) {
@@ -33,11 +31,9 @@ app.use(
   }),
 );
 
-// Parse incoming JSON request bodies.
 app.use(express.json());
 
-// Health-check endpoint.
-app.get("/api/health", (_req, res) => {
+app.get("/api/started", (_req, res) => {
   res.status(200).json({
     status: "ok",
     message: "Backend API is running",
